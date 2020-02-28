@@ -20,6 +20,8 @@
     "url",
     "phone",
     "react",
+    "mention",
+    "mentions",
     "react-component"
   ],
   "peerDependencies": {
@@ -33,8 +35,8 @@
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.49.0",
     "react-native": "0.57.4",
-    "react-test-renderer": "16.6.0-alpha.8af6728",
-    "react": "16.6.0-alpha.8af6728"
+    "react-test-renderer": "16.6.0",
+    "react": "16.6.0"
   },
   "author": "jrichardlai",
   "license": "MIT",
