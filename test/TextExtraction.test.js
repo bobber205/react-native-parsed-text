@@ -146,6 +146,68 @@ describe('TextExtraction', () => {
         { children: ' is good.' },
       ]);
     });
+
+    it('does not skip regex that has more than one match -- leading text', () => {
+      let test_string = 'introtext @[nameone](id:253) secondparttext @[nametwo](id:692) rest of string';
+      const textExtraction = new TextExtraction(
+        test_string,
+        [
+          { pattern: /@\[([^\]]+?)\]\(id:([^\]]+?)\)/igm },
+        ],
+      );
+
+      expect(textExtraction.parse().length).toEqual(5);
+
+      expect(textExtraction.parse()).toEqual([
+        { children: 'introtext ' },
+        { children: '@[nameone](id:253)' },
+        { children: ' secondparttext ' },
+        { children: '@[nametwo](id:692)' },
+        { children: ' rest of string' },
+      ]);
+    });
+
+    it('does not skip regex that has more than one match --NO leading text', () => {
+      let test_string = '@[nameone](id:253) secondparttext @[nametwo](id:692) rest of string';
+      const textExtraction = new TextExtraction(
+        test_string,
+        [
+          { pattern: /@\[([^\]]+?)\]\(id:([^\]]+?)\)/igm },
+        ],
+      );
+
+      expect(textExtraction.parse().length).toEqual(4);
+
+      expect(textExtraction.parse()).toEqual([
+        { children: '@[nameone](id:253)' },
+        { children: ' secondparttext ' },
+        { children: '@[nametwo](id:692)' },
+        { children: ' rest of string' },
+      ]);
+    });
+
+
+    it('does not skip regex that has more than one match --NO leading text -- trailing match', () => {
+      let test_string = '@[nameone](id:253) secondparttext @[nametwo](id:692) rest of string @[Alex Wait](id:444).';
+      const textExtraction = new TextExtraction(
+        test_string,
+        [
+          { pattern: /@\[([^\]]+?)\]\(id:([^\]]+?)\)/igm },
+        ],
+      );
+
+      expect(textExtraction.parse().length).toEqual(6);
+
+      expect(textExtraction.parse()).toEqual([
+        { children: '@[nameone](id:253)' },
+        { children: ' secondparttext ' },
+        { children: '@[nametwo](id:692)' },
+        { children: ' rest of string ' },
+        { children: '@[Alex Wait](id:444)' },
+        { children: '.' },
+      ]);
+    });
+
   });
 
   describe('renderText prop', () => {

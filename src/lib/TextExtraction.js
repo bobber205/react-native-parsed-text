@@ -32,7 +32,7 @@ class TextExtraction {
         let indexOfMatchedString = 0;
 
         while (textLeft) {
-          let matches = pattern.pattern.exec(textLeft);
+          let matches = new RegExp(pattern.pattern).exec(textLeft);
 
           if (!matches) { break; }
 
